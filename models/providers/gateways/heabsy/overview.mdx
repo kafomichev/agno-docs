@@ -1,0 +1,80 @@
+---
+title: Heabsy
+sidebarTitle: Overview
+description: Run open models through the Heabsy OpenAI-compatible inference API with Agno agents.
+---
+
+Heabsy is an OpenAI-compatible inference API for open models. Models in the EEA tier run on dedicated GPUs in EEA data centres with zero data retention; models routed through third parties are labelled as such in the [model catalog](https://heabsy.com/models).
+
+See [heabsy.com/platform](https://heabsy.com/platform) for the platform and [api.heabsy.com/docs](https://api.heabsy.com/docs) for the API reference.
+
+## Authentication
+
+Set your `HEABSY_API_KEY` environment variable. Get an API key in the [Heabsy console](https://platform.heabsy.com); accounts are opened on request at [heabsy.com/contacts](https://heabsy.com/contacts).
+
+<CodeGroup>
+
+```bash Mac
+export HEABSY_API_KEY=***
+```
+
+```bash Windows
+setx HEABSY_API_KEY ***
+```
+
+</CodeGroup>
+
+## Example
+
+Install the `openai` package:
+
+```shell
+uv pip install -U agno openai
+```
+
+Use `Heabsy` with your `Agent`:
+
+<CodeGroup>
+
+```python agent.py
+from agno.agent import Agent
+from agno.models.heabsy import Heabsy
+
+agent = Agent(model=Heabsy(id="qwen38"), markdown=True)
+
+agent.print_response("Share a 2 sentence horror story")
+```
+
+</CodeGroup>
+
+The string form `model="heabsy:qwen38"` resolves to the same class.
+
+## Models
+
+`GET https://api.heabsy.com/v1/models` lists the available model IDs.
+
+| Model ID | Model | Context | Max output | Capabilities |
+| --- | --- | --- | --- | --- |
+| `qwen38` | Qwen3.8 27B | 262,144 tokens | 32,768 tokens | Vision input, tool calling, structured output, reasoning |
+
+Reasoning is switched on or off per request with `chat_template_kwargs.enable_thinking`:
+
+```python
+Heabsy(id="qwen38", extra_body={"chat_template_kwargs": {"enable_thinking": False}})
+```
+
+Heabsy has no `/v1/embeddings` endpoint. Use a different embedder for knowledge bases.
+
+## Params
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | `"qwen38"` | The ID of the Heabsy model to use |
+| `name` | `str` | `"Heabsy"` | The name of the model |
+| `provider` | `str` | `"Heabsy"` | The provider of the model |
+| `api_key` | `Optional[str]` | `None` | The API key for Heabsy, read from `HEABSY_API_KEY` |
+| `base_url` | `str` | `"https://api.heabsy.com/v1"` | The base URL for the Heabsy API |
+
+`Heabsy` extends `OpenAILike`, so it supports the same OpenAI-compatible model parameters documented in [OpenAI Like](/models/providers/openai-like).
+
+<Note> Runnable examples are in the [Heabsy cookbook](https://github.com/agno-agi/agno/tree/main/cookbook/90_models/heabsy). </Note>
