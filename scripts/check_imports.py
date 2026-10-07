@@ -71,6 +71,9 @@ POST_TAG_IMPORT_FILES = {
         "knowledge/vector-stores/valkey/usage/async-valkey-db.mdx",
         "knowledge/vector-stores/valkey/usage/valkey-db.mdx",
     },
+    "from agno.models.heabsy import Heabsy": {
+        "models/providers/gateways/heabsy/overview.mdx",
+    },
 }
 
 CODEBLOCK_RE = re.compile(r"```(\w+)?[^\n]*\n(.*?)```", re.DOTALL)
