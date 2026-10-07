@@ -1856,6 +1856,12 @@
                             ]
                           },
                           {
+                            "group": "Heabsy",
+                            "pages": [
+                              "models/providers/gateways/heabsy/overview"
+                            ]
+                          },
+                          {
                             "group": "Hugging Face",
                             "pages": [
                               "models/providers/gateways/huggingface/overview",
@@ -3773,6 +3779,12 @@
                               "models/providers/gateways/groq/usage/translation-agent"
                             ]
                           }
+                        ]
+                      },
+                      {
+                        "group": "Heabsy",
+                        "pages": [
+                          "models/providers/gateways/heabsy/overview"
                         ]
                       },
                       {
